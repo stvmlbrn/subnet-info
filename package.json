@@ -1,9 +1,9 @@
 {
   "name": "subnet-info",
   "version": "0.0.1",
-  "description": "Takes a CIDR network address and return general network information such as network size, number of hosts, broadcast address, and subnet mask",
+  "description": "Takes a CIDR network address and returns general network information such as network size, number of hosts, broadcast address, and subnet mask",
   "files": [
-    "app"
+    "index"
   ],
   "keywords": [
     "CIDR",
@@ -16,7 +16,7 @@
     "name": "Steve Milburn",
     "email": "scmilburn@gmail.com"
   },
-  "main": "lib/subnet-info.js",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/stevemilburn/subnet-info"
