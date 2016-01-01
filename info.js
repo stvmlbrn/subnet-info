@@ -40,7 +40,15 @@ var info = {
   },
 
   endAddress: function(cidr) {
+    var broadcastAddr = this.broadcastAddress(cidr).split('.');
+    var endAddr = [];
 
+    endAddr[0] = broadcastAddr[0];
+    endAddr[1] = broadcastAddr[1];
+    endAddr[2] = broadcastAddr[2];
+    endAddr[3] = 254;
+
+    return endAddr.join('.');
   },
 
   networkAddress: function(cidr) {
@@ -121,7 +129,8 @@ var info = {
       netMask: this.netMask(cidr),
       networkAddress: this.networkAddress(cidr),
       broadcastAddress: this.broadcastAddress(cidr),
-      startAddress: this.startAddress(cidr)
+      startAddress: this.startAddress(cidr),
+      endAddress: this.endAddress(cidr)
     };
 
     return info;
