@@ -1,5 +1,4 @@
 # subnet-info
-Takes a CIDR network address and returns general network information
 
 ## Installation
 `npm install subnet-info`
@@ -20,7 +19,7 @@ var details = subnetInfo.details('192.168.10.50/24');
 * broadcastAddress() - returns the broadcast address for the specified network
 * details() - returns an object that contains all of the above information
 
-IP address and subnet mask must be provided in [CIDR Notation](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing#CIDR_notation) for all methods.
+IP address and subnet mask must be provided in [CIDR Notation](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing#CIDR_notation) for all methods. Currently only supports IPv4 addresses.
 
 ## License
 [MIT License](http://en.wikipedia.org/wiki/MIT_License)
