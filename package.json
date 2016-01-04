@@ -1,14 +1,15 @@
 {
   "name": "subnet-info",
   "version": "0.0.1",
-  "description": "Takes a CIDR network address and returns general network information such as network size, number of hosts, broadcast address, and subnet mask",
+  "description": "Takes an IPv4 CIDR network address and returns general network information such as network size, number of hosts, broadcast address, and subnet mask",
   "files": [
     "index"
   ],
   "keywords": [
     "CIDR",
     "network",
-    "subnet"
+    "subnet",
+    "IPv4"
   ],
   "homepage": "https://github.com/stevemilburn/subnet-info",
   "bugs": "https://github.com/stevemilburn/subnet-info/issues",
