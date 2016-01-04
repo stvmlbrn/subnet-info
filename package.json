@@ -1,6 +1,6 @@
 {
   "name": "subnet-info",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Takes an IPv4 CIDR network address and returns general network information such as network size, number of hosts, broadcast address, and subnet mask",
   "files": [
     "index"
