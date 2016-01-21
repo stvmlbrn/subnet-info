@@ -3,6 +3,11 @@ var toBinary = require('to-binary');
 
 var info = {
 
+  size: function(cidr) {
+    var subnetBits = parseInt(cidr.split('/')[1], 10);
+    return Math.pow(2, 32-subnetBits);
+  },
+
   hosts: function(cidr) {
     var subnetBits = parseInt(cidr.split('/')[1], 10);
     return Math.max(Math.pow(2, 32-subnetBits) - 2, 1);
