@@ -10,7 +10,17 @@ var info = {
 
   hosts: function(cidr) {
     var subnetBits = parseInt(cidr.split('/')[1], 10);
-    return Math.max(Math.pow(2, 32-subnetBits) - 2, 1);
+    var hosts = 0;
+
+    if (subnetBits === 32) {
+      hosts = 1;
+    } else if (subnetBits === 31) {
+      hosts = 2;
+    } else {
+      hosts = Math.pow(2, 32-subnetBits) - 2;
+    }
+
+    return hosts;
   },
 
   netMask: function(cidr) {
@@ -130,6 +140,7 @@ var info = {
 
   details: function(cidr) {
     var info = {
+      size: this.size(cidr),
       hosts: this.hosts(cidr),
       netMask: this.netMask(cidr),
       networkAddress: this.networkAddress(cidr),
