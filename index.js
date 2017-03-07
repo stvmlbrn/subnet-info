@@ -1,36 +1,24 @@
-var ayb = require('all-your-base');
-var toBinary = require('to-binary');
+const ayb = require('all-your-base');
+const toBinary = require('to-binary');
 
-var info = {
+class SubnetInfo {
+  constructor(cidr) {
+    this.ip = cidr.split('/')[0];
+    this.subnetBits = parseInt(cidr.split('/')[1], 10);
+    this.octets = this.ip.split('.');
+  };
 
-  size: function(cidr) {
-    var subnetBits = parseInt(cidr.split('/')[1], 10);
-    return Math.pow(2, 32-subnetBits);
-  },
+  _size() {
+    return Math.pow(2, 32 - this.subnetBits);
+  };
 
-  hosts: function(cidr) {
-    var subnetBits = parseInt(cidr.split('/')[1], 10);
-    var hosts = 0;
-
-    if (subnetBits === 32) {
-      hosts = 1;
-    } else if (subnetBits === 31) {
-      hosts = 2;
-    } else {
-      hosts = Math.pow(2, 32-subnetBits) - 2;
-    }
-
-    return hosts;
-  },
-
-  netMask: function(cidr) {
-    var subnetBits = parseInt(cidr.split('/')[1], 10);
+  _netmask() {
     var i = 0;
     var octets = [];
     var octet = [];
 
     for (i = 0; i < 32; i++) {
-      octet.push(i < subnetBits ? 1 : 0);
+      octet.push(i < this.subnetBits ? 1 : 0);
 
       if (octet.length === 8 ) {
         octets.push(ayb.binToDec(octet.join('')));
@@ -39,36 +27,33 @@ var info = {
     }
 
     return octets.join('.');
-  },
+  };
 
-  startAddress: function(cidr) {
-    var netAddr = this.networkAddress(cidr).split('.');
-    var startIP = Math.min(parseInt(netAddr[3]) + 1, 1);
+  _startAddress() {
+    var netAddr = this._networkAddress().split('.');
     var startAddr = [];
 
     startAddr[0] = netAddr[0];
     startAddr[1] = netAddr[1];
     startAddr[2] = netAddr[2];
-    startAddr[3] = startIP;
+    startAddr[3] = parseInt(netAddr[3], 10) + 1;
 
     return startAddr.join('.');
-  },
+  };
 
-  endAddress: function(cidr) {
-    var broadcastAddr = this.broadcastAddress(cidr).split('.');
+  _endAddress() {
+    var broadcastAddr = this._broadcastAddress().split('.');
     var endAddr = [];
 
     endAddr[0] = broadcastAddr[0];
     endAddr[1] = broadcastAddr[1];
     endAddr[2] = broadcastAddr[2];
-    endAddr[3] = 254;
+    endAddr[3] = parseInt(broadcastAddr[3], 10) - 1;
 
     return endAddr.join('.');
-  },
+  };
 
-  networkAddress: function(cidr) {
-    var subnetBits = parseInt(cidr.split('/')[1], 10);
-    var ip = cidr.split('/')[0];
+  _networkAddress() {
     var i = 0;
     var binaryNetMask = '';
     var binaryIP = '';
@@ -76,10 +61,10 @@ var info = {
     var octet = [];
 
     for (i = 0; i < 32; i++) {
-      binaryNetMask += i < subnetBits ? '1' : '0';
+      binaryNetMask += i < this.subnetBits ? '1' : '0';
     }
 
-    ip = ip.split('.');
+    var ip = this.ip.split('.');
     for (i = 0; i < ip.length; i++) {
       ip[i] = toBinary(ip[i]);
     }
@@ -100,11 +85,9 @@ var info = {
     }
 
     return netAddr.join('.');
-  },
+  };
 
-  broadcastAddress: function(cidr) {
-    var subnetBits = parseInt(cidr.split('/')[1], 10);
-    var ip = cidr.split('/')[0];
+  _broadcastAddress() {
     var i = 0;
     var binaryNetMask = '';
     var binaryIP = '';
@@ -112,10 +95,10 @@ var info = {
     var octet = [];
 
     for (i = 0; i < 32; i++) {
-      binaryNetMask += i < subnetBits ? '1' : '0';
+      binaryNetMask += i < this.subnetBits ? '1' : '0';
     }
 
-    ip = ip.split('.');
+    var ip = this.ip.split('.');
     for (i = 0; i < ip.length; i++) {
       ip[i] = toBinary(ip[i]);
     }
@@ -136,22 +119,19 @@ var info = {
     }
 
     return broadcastAddr.join('.');
-  },
+  };
 
-  details: function(cidr) {
-    var info = {
-      size: this.size(cidr),
-      hosts: this.hosts(cidr),
-      netMask: this.netMask(cidr),
-      networkAddress: this.networkAddress(cidr),
-      broadcastAddress: this.broadcastAddress(cidr),
-      startAddress: this.startAddress(cidr),
-      endAddress: this.endAddress(cidr)
+  info() {
+    return {
+      size: this._size(),
+      netmask: this._netmask(),
+      startAddress: this._startAddress(),
+      endAddress: this._endAddress(),
+      netAddress: this._networkAddress(),
+      broadcastAddress: this._broadcastAddress()
     };
-
-    return info;
-  }
+  };
 
 };
 
-module.exports = info;
+module.exports = SubnetInfo;
