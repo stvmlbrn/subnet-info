@@ -1,6 +1,6 @@
 {
   "name": "subnet-info",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Takes an IPv4 CIDR network address and returns network size, broadcast address, subnet mask, start IP, end IP, and network address",
   "scripts": {
     "test": "mocha"
