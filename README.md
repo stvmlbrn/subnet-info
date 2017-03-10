@@ -11,7 +11,7 @@ var subnetinfo = new SubnetInfo('192.168.10.50/24');
 
 ## Example
 
-See the [example code](https://github.com/stvmlbrn/subnet-info/tree/master/example)
+See the [example code](https://github.com/stvmlbrn/subnet-info/blob/master/example/index.js)
 
 IP address and subnet mask must be provided in [CIDR Notation](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing#CIDR_notation). Currently only supports IPv4 addresses.
 
